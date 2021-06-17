@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 class SearchPage extends React.Component {
   state = {
     searchResults: [],
-    noImg: "https://books.google.nl/googlebooks/images/no_cover_thumb.gif"
+    noImg: "https://books.google.nl/googlebooks/images/no_cover_thumb.gif",
   };
 
   searchForBooks = async () => {

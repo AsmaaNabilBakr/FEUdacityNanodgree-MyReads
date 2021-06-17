@@ -3,13 +3,13 @@ import "../Assets/App.css";
 import * as BooksAPI from "../BooksAPI";
 
 class BookCard extends React.Component {
-  state={
-    bookshelf: ''
-  }
-  componentDidMount(){
+  state = {
+    bookshelf: "",
+  };
+  componentDidMount() {
     const getBookshelf = async () => {
       const bookDetails = await BooksAPI.get(this.props.id);
-      this.setState({bookshelf: bookDetails.shelf})
+      this.setState({ bookshelf: bookDetails.shelf });
     };
     getBookshelf();
   }
@@ -26,11 +26,14 @@ class BookCard extends React.Component {
             }}
           />
           <div className="book-shelf-changer">
-            <select id={this.props.id} onChange={() => this.props.updateShelf(this.props.id)}>
+            <select
+              id={this.props.id}
+              onChange={() => this.props.updateShelf(this.props.id)}
+            >
               <option selected disabled>
                 Move to...
               </option>
-              {this.state.bookshelf == "currentlyReading" ? (
+              {this.state.bookshelf === "currentlyReading" ? (
                 <option value="currentlyReading">
                   {" "}
                   &#10003; Currently Reading
@@ -38,17 +41,17 @@ class BookCard extends React.Component {
               ) : (
                 <option value="currentlyReading"> Currently Reading</option>
               )}
-              {this.state.bookshelf == "wantToRead" ? (
+              {this.state.bookshelf === "wantToRead" ? (
                 <option value="wantToRead"> &#10003; Want to Read</option>
               ) : (
                 <option value="wantToRead"> Want to Read</option>
               )}
-              {this.state.bookshelf == "read" ? (
+              {this.state.bookshelf === "read" ? (
                 <option value="read"> &#10003;Read</option>
               ) : (
                 <option value="read"> Read</option>
               )}
-              {this.state.bookshelf == "none" ? (
+              {this.state.bookshelf === "none" ? (
                 <option value="none"> &#10003;None</option>
               ) : (
                 <option value="none"> None</option>

@@ -1,93 +1,136 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import * as BooksAPI from '../../BooksAPI'
-import BookCard from '../../CoreComponents/BookCard'
-import '../../Assets/App.css'
+import React from "react";
+import { Link } from "react-router-dom";
+import * as BooksAPI from "../../BooksAPI";
+import BookCard from "../../CoreComponents/BookCard";
+import "../../Assets/App.css";
 
 class HomePage extends React.Component {
   state = {
     currentlyReadingBooks: [],
     wantToReadBooks: [],
     readBooks: [],
-  }
+  };
 
-componentDidMount(){
+  componentDidMount() {
     const userBooks = async () => {
-        const books = await BooksAPI.getAll();
-        const currentlyReadingBooks = books.filter((book)=> book.shelf === "currentlyReading")
-        const readBooks = books.filter((book)=> book.shelf === "read")
-        const wantToReadBooks = books.filter((book)=> book.shelf === "wantToRead")
-        this.setState({currentlyReadingBooks,readBooks, wantToReadBooks })
-      };
-      userBooks();
-}
-userBooks = async () => {
-  const books = await BooksAPI.getAll();
-  const currentlyReadingBooks = books.filter((book)=> book.shelf === "currentlyReading")
-  const readBooks = books.filter((book)=> book.shelf === "read")
-  const wantToReadBooks = books.filter((book)=> book.shelf === "wantToRead")
-  this.setState({currentlyReadingBooks,readBooks, wantToReadBooks })
-};
- changeShelf= async (id) =>{
-  const newShelf = document.getElementById(id).value;
-  console.log('newShelf',newShelf)
-  await BooksAPI.update(id, newShelf);
-  await this.userBooks();
-}
+      const books = await BooksAPI.getAll();
+      const currentlyReadingBooks = books.filter(
+        (book) => book.shelf === "currentlyReading"
+      );
+      const readBooks = books.filter((book) => book.shelf === "read");
+      const wantToReadBooks = books.filter(
+        (book) => book.shelf === "wantToRead"
+      );
+      this.setState({ currentlyReadingBooks, readBooks, wantToReadBooks });
+    };
+    userBooks();
+  }
+  userBooks = async () => {
+    const books = await BooksAPI.getAll();
+    const currentlyReadingBooks = books.filter(
+      (book) => book.shelf === "currentlyReading"
+    );
+    const readBooks = books.filter((book) => book.shelf === "read");
+    const wantToReadBooks = books.filter((book) => book.shelf === "wantToRead");
+    this.setState({ currentlyReadingBooks, readBooks, wantToReadBooks });
+  };
+  changeShelf = async (id) => {
+    const newShelf = document.getElementById(id).value;
+    console.log("newShelf", newShelf);
+    await BooksAPI.update(id, newShelf);
+    await this.userBooks();
+  };
   render() {
-      console.log(this.state.currentlyReadingBooks,this.state.readBooks, this.state.wantToReadBooks)
+    console.log(
+      this.state.currentlyReadingBooks,
+      this.state.readBooks,
+      this.state.wantToReadBooks
+    );
     return (
       <div className="app">
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-            <div className="list-books-content">
-              <div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Currently Reading</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                      {this.state.currentlyReadingBooks.map((book)=> (
-                        <li key={book.id}>
-                        <BookCard updateShelf={this.changeShelf} id={book.id} title={book.title} author={book.authors} imgURL={book.imageLinks.smallThumbnail != undefined ? book.imageLinks.smallThumbnail: 'https://books.google.nl/googlebooks/images/no_cover_thumb.gif' } />
+        <div className="list-books">
+          <div className="list-books-title">
+            <h1>MyReads</h1>
+          </div>
+          <div className="list-books-content">
+            <div>
+              <div className="bookshelf">
+                <h2 className="bookshelf-title">Currently Reading</h2>
+                <div className="bookshelf-books">
+                  <ol className="books-grid">
+                    {this.state.currentlyReadingBooks.map((book) => (
+                      <li key={book.id}>
+                        <BookCard
+                          updateShelf={this.changeShelf}
+                          id={book.id}
+                          title={book.title}
+                          author={book.authors}
+                          imgURL={
+                            book.imageLinks.smallThumbnail !== undefined
+                              ? book.imageLinks.smallThumbnail
+                              : "https://books.google.nl/googlebooks/images/no_cover_thumb.gif"
+                          }
+                        />
                       </li>
-                      ))}
-                    </ol>
-                  </div>
+                    ))}
+                  </ol>
                 </div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Want to Read</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                    {this.state.wantToReadBooks.map((book)=> (
+              </div>
+              <div className="bookshelf">
+                <h2 className="bookshelf-title">Want to Read</h2>
+                <div className="bookshelf-books">
+                  <ol className="books-grid">
+                    {this.state.wantToReadBooks.map((book) => (
                       <li key={book.id}>
-                        <BookCard updateShelf={this.changeShelf} id={book.id} title={book.title} author={book.authors} imgURL={book.imageLinks.smallThumbnail != undefined ? book.imageLinks.smallThumbnail: 'https://books.google.nl/googlebooks/images/no_cover_thumb.gif' } />
-                      </li>                    ))}
-                      </ol>
-                  </div>
+                        <BookCard
+                          updateShelf={this.changeShelf}
+                          id={book.id}
+                          title={book.title}
+                          author={book.authors}
+                          imgURL={
+                            book.imageLinks.smallThumbnail !== undefined
+                              ? book.imageLinks.smallThumbnail
+                              : "https://books.google.nl/googlebooks/images/no_cover_thumb.gif"
+                          }
+                        />
+                      </li>
+                    ))}
+                  </ol>
                 </div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Read</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                    {this.state.readBooks.map((book)=> (
+              </div>
+              <div className="bookshelf">
+                <h2 className="bookshelf-title">Read</h2>
+                <div className="bookshelf-books">
+                  <ol className="books-grid">
+                    {this.state.readBooks.map((book) => (
                       <li key={book.id}>
-                        <BookCard updateShelf={this.changeShelf} id={book.id} title={book.title} author={book.authors} imgURL={book.imageLinks.smallThumbnail != undefined ? book.imageLinks.smallThumbnail: 'https://books.google.nl/googlebooks/images/no_cover_thumb.gif' } />
-                      </li>                    ))}
-                     </ol>
-                  </div>
+                        <BookCard
+                          updateShelf={this.changeShelf}
+                          id={book.id}
+                          title={book.title}
+                          author={book.authors}
+                          imgURL={
+                            book.imageLinks.smallThumbnail !== undefined
+                              ? book.imageLinks.smallThumbnail
+                              : "https://books.google.nl/googlebooks/images/no_cover_thumb.gif"
+                          }
+                        />
+                      </li>
+                    ))}
+                  </ol>
                 </div>
               </div>
             </div>
-            <div className="open-search">
-              <Link to="/search"><button>Add a book</button></Link>
-            </div>
           </div>
-        
+          <div className="open-search">
+            <Link to="/search">
+              <button>Add a book</button>
+            </Link>
+          </div>
+        </div>
       </div>
-    )
+    );
   }
 }
 
-export default HomePage
+export default HomePage;
