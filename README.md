@@ -1,6 +1,6 @@
 # FEUdacityNanodgree-MyReads Project
 
-This is My Project for the Second assessment project for Front End Web Development Advanced Nanodegree Program.
+This is My Project for the Second assessment project for Front End Web Development Advanced Nanodegree Program using React, JS, CSS, and HTML.
 
 ## To get started developing right away:
 
